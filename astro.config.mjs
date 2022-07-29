@@ -25,7 +25,7 @@ export default defineConfig({
 	},
 	vite: {
 		plugins: [],
-		ssr: {}
+		// ssr: {}
 	},
   integrations: [
 		sitemap(),
