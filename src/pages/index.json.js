@@ -36,7 +36,7 @@ export async function get() {
     }
   });
 
-  let allPosts = await import.meta.globEager('./posts/**/*.md');
+  let allPosts = await import.meta.globEager('./posts/**/*.mdx');
   let sanitizedDate = '';
 
   // https://stackoverflow.com/questions/31649362/json-stringify-and-unicode-characters
