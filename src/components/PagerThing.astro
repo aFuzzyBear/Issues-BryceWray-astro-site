@@ -1,0 +1,45 @@
+---
+const { page } = Astro.props;
+---
+
+<style lang="scss">
+  @use '../styles/variables' as var; // SCSS partial
+  .pagerThingP {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    gap: 4rem;
+    grid-auto-flow: column;
+    font-size: 1.25em;
+    // margin: 0.5 auto;
+    .page1, .pageP, .pageN, .pageL {
+      display: inline-block;
+      margin-top: 0;
+      margin-bottom: 0;
+      // sep. in case we want more control of x-axis margins and such
+    }
+    a {
+      border: none;
+    }
+  }
+
+</style>
+
+          <div class="pagerThingP">
+            {page.url.prev == null
+              ? <div class="page1">&#9664;&#9664;</div>
+              : <div class="page1"><a href="/posts/">&#9664;&#9664;</a></div>
+            }
+            {page.url.prev
+              ? <div class="pageP"><a href={page.url.prev}>&#9664;</a></div>
+              : <div class="pageP">&#9664;</div>
+            }
+            {page.url.next
+              ? <div class="pageN"><a href={page.url.next}>&#9654;</a></div>
+              : <div class="pageN">&#9654;</div>
+            }
+            {page.url.next == null
+              ? <div class="pageL">&#9654;&#9654;</div>
+              : <div class="pageL"><a href=`/posts/${page.lastPage}/`>&#9654;&#9654;</a></div>
+            }
+          </div>

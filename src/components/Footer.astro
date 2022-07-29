@@ -1,0 +1,66 @@
+---
+let copyYear = new Date().getFullYear();
+---
+
+<style lang="scss">
+  @use '../styles/variables' as var; // SCSS partial
+  footer {
+    // font-family: var.$sans-serif;
+    text-align: center;
+    font-size: var.$legal;
+    margin: 4rem auto 0 auto;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    p {
+      line-height: 1.5em; // definitely em, not rem, here
+    }
+    div.footerWrapper {
+      margin: 0 auto;
+      width: 80%;
+      p {
+        margin: 1rem 0;
+      }
+      div.icons-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1em;
+      }
+    }
+    @media (min-width: var.$bkpt_lg) {
+      margin: 2rem auto 0 auto;
+      // padding-bottom: 1rem;
+      div.footerWrapper {
+        width: 65%;
+        height: 100%;
+      }
+    }
+  }
+
+</style>
+
+<footer>
+  <div class="footerWrapper">
+    <div class="icons-box">
+      <a class="icon" href="https://github.com/brycewray" target="_blank" rel="noopener" aria-label="GitHub">
+        <img src="/assets/images/svgs/svgGitHubIcon.svg" alt="GitHub" loading="lazy" />
+      </a>
+      <a class="icon" href="https://twitter.com/BryceWrayTX" target="_blank" rel="noopener" aria-label="Twitter">
+        <img src="/assets/images/svgs/svgTwitterIcon.svg" alt="Twitter" loading="lazy" />
+      </a>
+      <a class="icon" href="https://mastodon.technology/@BryceWrayTX" target="_blank" rel="noopener" aria-label="Mastodon">
+        <img src="/assets/images/svgs/svgMastodonIcon.svg" alt="Mastodon" loading="lazy" />
+      </a>
+      <a class="icon" href="/index.xml" aria-label="RSS">
+        <img src="/assets/images/svgs/svgRSSIcon.svg" alt="RSS feed" loading="lazy" />
+      </a>
+      <a class="icon" href="/index.json" aria-label="JSON newsfeed">
+        <img src="/assets/images/svgs/svgJSONfeedIcon.svg" alt="JSON feed" loading="lazy" />
+      </a>
+    </div>
+    <p>
+      Site textual content &copy;&nbsp;2018&ndash;{copyYear}&nbsp;<a class="h-card" rel="me" href="https://www.brycewray.com/">Bryce&nbsp;Wray</a> except&nbsp;where otherwise&nbsp;noted.<br /><span class="text-nowrap">Images hosted and processed by <a href="https://cloudinary.com/invites/lpov9zyyucivvxsnalc5/dqunpyaeqiizezj6lbdu" target="_blank" rel="noopener">Cloudinary</a>.*</span><br/><span class="text-nowrap">Analytics by <a href="https://usefathom.com/ref/ZKHYWX" target="_blank" rel="noopener">Fathom Analytics</a>.*</span> <span class="text-nowrap"><a href="/privacy/">View this site&rsquo;s <strong>privacy policy</strong></a>.</span><br /><span class="text-nowrap">Sitemaps: <a href="/sitemap/">HTML</a> &bull; <a href="/sitemap.xml">XML</a>.</span><br />&nbsp;<br /><span class="legal"><em>* Affiliate/invite links.</em></span>
+    </p>
+  </div>
+</footer>

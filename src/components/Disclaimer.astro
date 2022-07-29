@@ -1,0 +1,30 @@
+---
+// Nothing
+---
+
+<style lang="scss">
+  @use '../styles/variables' as var; // SCSS partial
+  .blueBox {
+    background: hsl(200, 100%, 95%);
+    font-family: var.$sans-serif;
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid hsl(0, 0%, 20%);
+    margin: 0.5em auto;
+    width: 100%;
+    padding: 1em 1.25em;
+    @media (prefers-color-scheme: dark) {
+      background: hsl(200, 100%, 20%);
+      border: 1px solid var.$grey-1;
+    }
+    p {
+      padding: 0;
+      margin: 0;
+      font-size: 85%;
+    }
+  }
+</style>
+
+<div class="blueBox">
+  <p><strong>General note</strong>: This site’s appearance, configuration, hosting, and other basic considerations will change over time. As a result, certain content on this page could be at variance with what you’re currently seeing on the site, but the two <strong>were</strong> consistent when this post originally appeared.</p>
+</div>

@@ -1,0 +1,75 @@
+---
+import { format } from "date-fns";
+
+import Head from '@components/Head.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+import '@styles/Shiki.scss';
+// import '@styles/SitemapHTML.scss';
+
+let title = 'BryceWray.com';
+let description = 'brycewray.com — Observations, opinions, geekery.';
+let permalink = 'https://www.brycewray.com/sitemap/';
+
+let allPosts = await Astro.glob('./posts/**/*.mdx');
+allPosts = allPosts
+  .filter(post => !post.frontmatter.draft)
+  .sort((a, b) =>
+    new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()
+);
+---
+
+<style lang="scss">
+  @use '../styles/variables' as var; // SCSS partial
+  .sitemapDiv {
+    font-family: var.$sans-serif;
+    h1 {
+      text-align: center;
+      font-size: 2.25rem;
+      padding-top: 0.75em;
+      margin-bottom: 0.5em;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    ul li {
+      font-size: var.$pokey;
+      margin-bottom: 0.75em;
+      line-height: 1.5em;
+    }
+  }
+
+</style>
+<html lang="en">
+  <head>
+    <Head {title} {description} {permalink} />
+  </head>
+
+  <body>
+    <Header />
+    <main class="content">
+      <div class="container-narrower sitemapDiv">
+        <h1>Sitemap</h1>
+        <h2>Main pages</h2>
+        <ul>
+          <li><a href="/">Home page</a></li>
+          <li><a href="/about/">About me</a></li>
+          <li><a href="/privacy/">Site&rsquo;s privacy policy</a></li>
+          <li><a href="/contact/">How to contact me</a></li>
+        </ul>
+        <h2>Posts</h2>
+        <ul>
+          <li><a href="/posts/"><strong>Complete list</strong></a> <em>(first page of paginated list; five posts per page)</em></li>
+          {allPosts.map((post) => (
+            <li><a href={post.url}><strong>{post.frontmatter.title}</strong></a>&nbsp;&bull;&nbsp;{format(new Date(post.frontmatter.date), "MMMM d, yyyy")}<br />
+            {post.frontmatter.description}</li>
+          ))}
+        </ul>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

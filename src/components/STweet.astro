@@ -1,0 +1,331 @@
+---
+import { format } from "date-fns";
+// import '@styles/Twitter.scss';
+export interface Props {
+	id: string;
+}
+
+/*
+Based on...
+- https://github.com/hugomd/blog/blob/6ad96b24117255c2a9912c566ffd081bd9bbd6f1/layouts/shortcodes/statictweet.html
+- https://hugo.md/post/update-rendering-static-tweets/
+- https://github.com/KyleMit/eleventy-plugin-embed-tweet
+- https://github.com/rebelchris/astro-static-tweet/blob/master/StaticTweet.astro
+- https://www.brycewray.com/posts/2022/04/static-tweets-astro/
+*/
+
+let aspect = "1 / 1" // avoids issues later;
+
+const { id } = Astro.props as Props;
+
+const formatError = (...lines) => lines.join('\n         ');
+
+// Thanks to eleventy-plugin-embed-twitter
+// https://github.com/gfscott/eleventy-plugin-embed-twitter/blob/main/lib/extractMatch.js
+const urlPattern = /(?=(\s*))\1(?:<a [^>]*?>)??(?=(\s*))\2(?:https?:)??(?:\/\/)??(?:w{3}\.)??(?:twitter\.com)\/([a-zA-Z0-9_]{1,15})?(?:\/(?:status)\/)(\d+)?(?:[^\s<>]*)(?=(\s*))\5(?:<\/a>)??(?=(\s*))\6/;
+const idRegExp = /^\d+$/;
+
+function extractID(idOrUrl: string) {
+	if (idRegExp.test(idOrUrl)) return idOrUrl;
+	const match = idOrUrl.match(urlPattern);
+	return match?.[4]
+}
+
+/** Fetch a URL and parse it as JSON, but catch errors to stop builds erroring. */
+async function safeGet(url: string) {
+	try {
+		const res = await fetch(url);
+		if (!res.ok) throw new Error(formatError(`Failed to fetch ${url}`, `Error ${res.status}: ${res.statusText}`));
+		return await res.json();
+	} catch (e) {
+		console.error(formatError(`[error]  Tweet.astro`, e?.message ?? e));
+	}
+}
+
+async function fetchTweet(id) {
+	return await safeGet(`https://cdn.syndication.twimg.com/tweet?id=${id}`);
+}
+
+function buildContent(tweet) {
+	if (!tweet) return {}
+
+	const { name = '', screen_name = '', profile_image_url_https = '' } = tweet.user;
+	let { created_at = '', text = '' } = tweet;
+	let images = [];
+	let video;
+	let imageCount = 0;
+
+	if (tweet.entities.urls) {
+		tweet.entities.urls.forEach(({ url, display_url, expanded_url }) => {
+			text = text.replace(
+				url,
+				`<a href=${expanded_url}>${display_url}</a>`
+			);
+		})
+	}
+
+	if (tweet.entities.user_mentions) {
+		tweet.entities.user_mentions.forEach(({ screen_name }) => {
+			text = text.replace(
+				`@${screen_name}`,
+				`<a target="_blank" rel="noreferrer noopener" href="https://twitter.com/${screen_name}">@${screen_name}</a>`
+			);
+		})
+	}
+
+	if (tweet.entities.hashtags) {
+		tweet.entities.hashtags.forEach((tag) => {
+			text = text.replace(
+				`#${tag.text}`,
+				`<a target="_blank" rel="noreferrer noopener" href="https://twitter.com/hashtag/${tag.text}?src=hash&ref_src=twsrc">#${tag.text}</a>`
+			);
+		})
+	}
+
+	text = text.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+
+	if (tweet.entities.media && !tweet.video) {
+		tweet.entities.media.forEach(({ url, expanded_url }) => {
+			if (url) {
+				text = text.replace(url, expanded_url);
+			}
+		})
+	}
+
+	if (tweet.photos) {
+		imageCount = tweet.photos.length;
+		tweet.photos.forEach(({ expandedUrl, url, width, height, accessibilityLabel = '' }) => {
+			images.push(`<div><img class="tweet-media-img" src=${url} alt="${accessibilityLabel}" width="${width}" height="${height}" loading="lazy" /></div>`);
+			text = text.replace(expandedUrl, '');
+		})
+	}
+
+	if (tweet.video) {
+		// Remove interim video URL from text content.
+    tweet.entities.media.forEach(({ url }) => {
+      if (url) {
+        text = text.replace(url, '');
+      }
+    })
+		aspect = tweet.video.aspectRatio.join(' / ');
+		video = `<video autoplay loop controls class="tweet-media-video" preload="none" poster="${tweet.video.poster}">`;
+		tweet.video.variants.forEach(({ src, type }) => {
+			video += `<source src="${src}" type="${type}">`;
+		})
+		video += '</video>';
+  }
+
+	return { name, screen_name, profile_image_url_https, created_at, text, images: images.join(''), imageCount, video };
+}
+
+const tweetID = extractID(id);
+const tweet = await fetchTweet(tweetID);
+const { name, screen_name, profile_image_url_https, text, images, imageCount, video, created_at } = buildContent(tweet);
+const tweetLink = `https://twitter.com/${screen_name}/status/${tweetID}`;
+---
+
+<style lang="scss" define:vars={{aspect}}>
+
+  @use '../styles/variables' as var; // SCSS partial
+
+  // based partly on https://github.com/astro-community/astro-embed/tree/main/packages/astro-embed-twitter
+
+  $tc-corner-radius: 1em;
+  $tc-padding: 1em;
+
+  .tweet-card {
+    font-family: var.$sans-serif;
+    margin: 1.5rem auto;
+    padding: 1rem;
+    border: 2px solid var.$grey-1;
+    border-radius: 12px;
+    background: var.$white;
+    width: 100%;
+    @media screen and (min-width: var.$bkpt_ml) {
+      width: 80%;
+    }
+    @media screen and (min-width: var.$bkpt_lg) {
+      width: 85%;
+    }
+    // @media screen and (min-width: var.$bkpt_2xl) {
+    //   width: 85%;
+    // }
+    @media screen and (min-width: var.$bkpt_3xl) {
+      max-width: 80ch;
+    }
+    @media screen and (prefers-color-scheme: dark) {
+      background: transparent;
+    }
+    a, a:hover {
+      border: none !important;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+      /*
+      See:
+      - https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+      - https://css-tricks.com/where-lines-break-is-complicated-heres-all-the-related-css-and-html/
+      - https://css-tricks.com/better-line-breaks-for-long-urls/
+      */
+      @media screen and (prefers-color-scheme: dark) {
+        color: var.$blueLight;
+      }
+    }
+    @media screen and (prefers-color-scheme: dark) {
+      border: 2px solid var.$grey-2;
+      color: var.$white;
+    }
+  }
+
+  .tweet-body {
+    font-size: var.$stdsize;
+    line-height: 1.5em;
+    text-align: left !important;
+    @media screen and (min-width: var.$bkpt_lg) {
+      font-size: var.$minimalbig;
+    }
+  }
+
+  // ==== rounded image "attachment"
+  // Eleventy version
+  .tweet-images {
+    img {
+      border-radius: 12px;
+    }
+  }
+  // Hugo version
+  .tweet-media-img {
+    // border-radius: 12px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  // ==== END, rounded image "attachment"
+
+
+  .tweet-header {
+    display: flex;
+    .tweet-profile {
+      margin-right: 0.5em;
+      flex-shrink: 0;
+      img {
+        border-radius: 9999px;
+      }
+    }
+    .tweet-author {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      &-name {
+        font-weight: bold;
+        color: var.$black;
+        @media screen and (prefers-color-scheme: dark) {
+          color: var.$white;
+        }
+        line-height: 1.375;
+      }
+      &-handle {
+        color: var.$grey-1;
+        @media screen and (prefers-color-scheme: dark) {
+          color: var.$grey-2-dark-mode;
+        }
+        font-size: var.$pokey;
+        line-height: 1;
+      }
+      .tweet-bird {
+        margin-left: 1.25rem;
+      }
+    }
+  }
+
+  .tweet-footer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    color: var.$grey-1;
+    font-size: var.$pokey;
+    @media screen and (prefers-color-scheme: dark) {
+      color: var.$grey-2-dark-mode;
+    }
+    .tweet-like-icon, .tweet-like-count {
+      display: none;
+    }
+    a {
+      color: var.$grey-1;
+      @media screen and (prefers-color-scheme: dark) {
+        color: var.$grey-2-dark-mode;
+      }
+    }
+    /* === needed in Eleventy but not in Hugo
+    .tweet-date:after {
+      content: " (UTC)";
+      font-size: var.$legal;
+    }
+    */
+  }
+
+  [class^='tweet-img-grid'],
+  .tweet-video-wrapper,
+  .tweet-media-video {
+    border-radius: $tc-corner-radius;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 2px;
+  }
+
+  .tweet-video-wrapper {
+    display: block;
+  }
+
+  .tweet-media-video {
+    // text-align: center;
+    width: 100%;
+    height: auto;
+  }
+
+  .tweet-img-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tweet-img-grid-3 .tweet-media-img {
+    aspect-ratio: 1.8;
+  }
+
+  .tweet-img-grid-3 :nth-child(1) {
+    grid-row: 1 / span 2;
+  }
+
+  .tweet-img-grid-3 :nth-child(1) .tweet-media-img {
+    aspect-ratio: 0.9;
+  }
+
+  .tweet-img-grid-2,
+  .tweet-img-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tweet-media-video-aspect video{
+    aspect-ratio: var(--aspect);
+  }
+</style>
+
+{tweet &&
+<blockquote class="tweet-card">
+	<div class="tweet-header">
+		<a class="tweet-profile" href={`https://twitter.com/${screen_name}`}>
+			<img src={profile_image_url_https} alt={`Twitter avatar for ${screen_name}`} />
+		</a>
+		<div class="tweet-author">
+			<a class="tweet-author-name" href={`https://twitter.com/${screen_name}`}>{name}</a>
+			<a class="tweet-author-handle" href={`https://twitter.com/${screen_name}`}>@{screen_name}</a>
+		</div>
+	</div>
+	<p class="tweet-body" set:html={text}></p>
+	{images && <a href={tweetLink} class={`tweet-img-grid-${imageCount}`} set:html={images} />}
+	{video && <div class="tweet-video-wrapper tweet-media-video-aspect" set:html={video} />}
+  <div class="tweet-footer">
+    <a href=`https://twitter.com/${screen_name}/status/${id}` class="tweet-date" target="_blank" rel="noreferrer noopener">{format(new Date(created_at), "MMMM d, yyyy • h:mm aa")}</a>&nbsp;<span class="legal">(UTC)</span>
+  </div>
+</blockquote>
+}

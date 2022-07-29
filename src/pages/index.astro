@@ -1,26 +1,189 @@
 ---
-console.log("Test message in console")
+import Head from '@components/Head.astro'
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { format } from "date-fns";
 
-const posts = await Astro.glob('./posts/**/*.mdx');
+// import '@styles/Shiki.scss';
+// import '@styles/Home.scss';
+
+// interface MarkdownFrontmatter {
+// 	publishDate: number;
+// }
+
+let title = 'BryceWray.com';
+let description = 'brycewray.com — Observations, opinions, geekery.';
+let permalink = 'https://www.brycewray.com/';
+
+let allPosts = await Astro.glob('./posts/**/*.mdx');
+allPosts = allPosts
+  .filter(post => !post.frontmatter.draft)
+  .sort((a, b) =>
+    new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()
+);
+let postsNumber = allPosts.length;
+let latestThree = allPosts.slice(0, 3);
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Hello, big ol’ world!</h1>
-  <h2>Posts:</h2>
-  {posts.map(post => <div><a href={post.url}>{post.frontmatter.title}</a></div>)}
-</body>
-</html>
-
-<style>
-  h1 {
-    color: red;
+<style lang="scss">
+  @use '../styles/variables' as var; // SCSS partial
+  .homeOpen {
+    text-align: center;
+    h1 {
+      line-height: 1.75em;
+      font-size: 1.5rem;
+      // font-weight: bold;
+      letter-spacing: -0.025em;
+    }
+    @media screen and (min-width: var.$bkpt_lg) {
+      text-align: right;
+      padding: 0 3em 0 0;
+      color: var.$white;
+      background-image: linear-gradient(to bottom, var.$darkblue, var.$black 50%, var.$white);
+      @media screen and (prefers-color-scheme: dark) {
+        background-image: linear-gradient(to bottom, var.$black, var.$darkblue 50%, var.$black);
+      }
+      width: 40%;
+      min-height: 80vh;
+      h1 {
+        padding: 3.5em 0 0 2em;
+        font-size: 1.75rem;
+      }
+      a {
+        color: var.$blueLight;
+        border-bottom: 1px solid var.$blueLight;
+      }
+    }
+    @media screen and (min-width: var.$bkpt_2xl) {
+      h1 {
+        padding: 2.5em 0 0 2.5em;
+        font-size: 2.25rem;
+      }
+    }
   }
+
+  .homePost {
+    &-Div {
+      padding-top: 1.5em;
+      @media screen and (min-width: var.$bkpt_lg) {
+        text-align: left;
+        width: 55%;
+        padding: 0 1.5em 0 4em;
+      }
+    }
+    &-Latest {
+      margin-top: 0.5em;
+      margin-bottom: 0.25em;
+      font-weight: 825;
+      @media screen and (prefers-color-scheme: dark) {
+        font-weight: 775;
+      }
+      font-size: 2rem;
+      // font-weight: bold;
+      letter-spacing: -0.025em;
+      @media screen and (min-width: var.$bkpt_lg) {
+        margin-top: 0;
+        padding-top: 1em;
+        font-size: 2.75rem;
+      }
+      @media screen and (min-width: var.$bkpt_2xl) {
+        font-size: 3.5rem;
+      }
+    }
+    &-Title {
+      font-size: 1.75rem;
+      letter-spacing: -0.025em;
+      padding-top: 0.5em;
+      line-height: normal;
+      @media screen and (min-width: var.$bkpt_lg) {
+        font-size: 2rem;
+      }
+      @media screen and (min-width: var.$bkpt_2xl) {
+        font-size: 2.25rem;
+      }
+    }
+    &-Subtitle {
+      margin-top: 0;
+      margin-bottom: 0.25em;
+      // font-weight: 625;
+      font-size: 1.25rem;
+      @media screen and (min-width: var.$bkpt_lg) {
+        font-size: 1.5rem;
+      }
+      @media screen and (min-width: var.$bkpt_2xl) {
+        font-size: 1.75rem;
+      }
+    }
+    &-Dates {
+      margin-top: 0.5em;
+      margin-bottom: 1em;
+      font-size: 0.875rem;
+      @media screen and (min-width: var.$bkpt_lg) {
+        font-size: 1rem;
+      }
+      @media screen and (min-width: var.$bkpt_2xl) {
+        font-size: 1.125rem;
+      }
+    }
+    &-Description {
+      margin-top: 0.5em;
+      // font-family: var.$serif;
+      font-size: 1.125rem;
+      @media screen and (min-width: var.$bkpt_lg) {
+        font-size: 1.25rem;
+      }
+      @media screen and (min-width: 1536px) {
+        font-size: 1.375rem;
+      }
+    }
+    &-Finish {
+      margin-top: 3em;
+    }
+  }
+
 </style>
+
+<html lang="en">
+	<head>
+		<Head {title} {description} {permalink} />
+	</head>
+
+	<body>
+		<Header />
+		<div class="wrapper">
+			<main class="content">
+        <div class="container-home">
+          <div class="homeOpen">
+            <h1>Welcome&nbsp;to brycewray.com, offering&nbsp;<a href="/about/">its&nbsp;owner</a>&rsquo;s observations, opinions, and&nbsp;geekiness since&nbsp;2018.</h1>
+          </div>
+          <div class="homePost-Div">
+            <div class="post-line"></div>
+            <h2 class="homePost-Latest">Latest <a href="/posts/">posts</a></h2>
+            <section aria-label="Three most recent posts">
+              {latestThree.map((post) => (
+                <div>
+                  <h2 class="homePost-Title">
+                    <a href=${post.url}>{post.frontmatter.title}</a>
+                  </h2>
+                  <p class="homePost-Description">
+                    {post.frontmatter.description}
+                  </p>
+                  <p class="homePost-Dates">
+                    <strong>{format(new Date(post.frontmatter.date), "MMMM d, yyyy")}</strong>
+                    {post.frontmatter.lastmod && (
+                      <br /><span class="pokey">Last modified {format(new Date(post.frontmatter.lastmod), "MMMM d, yyyy")}</span>
+                    )}
+                  </p>
+                </div>
+              ) )}
+            </section>
+            <p class="homePost-Finish">
+              <a href="/posts/"><strong>All {postsNumber} posts</strong></a> <span class="pokey"><em>(listed five per page)</em></span>
+            </p>
+          </div>
+        </div>
+			</main>
+		</div>
+    <Footer />
+	</body>
+</html>
