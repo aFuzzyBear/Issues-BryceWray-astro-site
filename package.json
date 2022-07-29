@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "astro": "^1.0.0-rc.1"
+    "@astrojs/mdx": "^0.3.1",
+    "astro": "^1.0.0-rc.2"
   }
 }
