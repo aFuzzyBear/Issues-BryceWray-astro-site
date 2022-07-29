@@ -1,0 +1,31 @@
+@use 'variables' as var;
+
+// === paginated post list
+
+hr.paginatorTop, hr.paginatorBottom {
+  border: none;
+  height: 1px;
+  background-color: var.$black;
+  @media (prefers-color-scheme: dark) {
+    background-color: var.$white;
+  }
+  width: 75%;
+  @media screen and (min-width: var.$bkpt_lg) {
+    width: 65%;
+  }
+  @media screen and (min-width: var.$bkpt_2xl) {
+    width: 55%;
+  }
+}
+
+hr.paginatorTop {
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+hr.paginatorBottom {
+  margin-top: 0em;
+  padding: 0;
+}
+
+// === end, paginated post list
