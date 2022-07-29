@@ -17,10 +17,10 @@ yarn-error.log*
 .DS_Store
 
 #shell scripts
-start.sh
-build.sh
+start*.sh
+build*.sh
 testbuild.sh
-push.sh
+push*.sh
 
 #static tweet stuff
 tweetcurl*.json
