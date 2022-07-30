@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@astrojs/mdx": "^0.3.1",
+    "@astrojs/mdx": "^0.4.0",
     "@astrojs/sitemap": "^0.3.0",
-    "astro": "^1.0.0-rc.2",
+    "astro": "^1.0.0-rc.3",
     "axios": "^0.27.2",
     "date-fns": "^2.29.1",
     "feed": "^4.2.2",
@@ -30,6 +30,7 @@
     "rehype-slug": "^5.0.1",
     "remark-footnotes": "^4.0.1",
     "remark-gfm": "^3.0.1",
+    "remark-smartypants": "^2.0.0",
     "sanitize-html": "^2.7.1",
     "sass": "^1.54.0",
     "twitter-api-client": "^1.6.0"
