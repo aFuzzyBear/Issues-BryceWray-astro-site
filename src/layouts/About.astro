@@ -6,12 +6,12 @@ import Footer from '@components/Footer.astro'
 import Billboard from '@components/Billboard.astro'
 import PostFeatImg from '@components/PostFeatImg.astro'
 
-const { title, subtitle, description, date, lastmod, permalink, featured_image, featured_image_alt, featured_image_width, featured_image_height, featured_image_caption } = Astro.props
+const { title, subtitle, description, date, lastmod, permalink } = Astro.props
 ---
 
 <html lang="en">
 	<head>
-		<Head {title} {description} {permalink} {featured_image} />
+		<Head {title} {description} {permalink} />
 	</head>
 
 	<body>
@@ -24,7 +24,7 @@ const { title, subtitle, description, date, lastmod, permalink, featured_image, 
 				date={date}
 				lastmod={lastmod}
 			/>
-			<About >
+			<About>
 				<slot />
 			</About>
     </main>

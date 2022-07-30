@@ -14,17 +14,21 @@ featured_image_caption: |
   <span class="caption">Image: <a href="https://pixabay.com/users/Dalomo-5179/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=49958">Dalomo</a>; <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=49958">Pixabay</a></span>
 ---
 
-export {default} from '@layouts/About.astro';
+export const title = 'About me'
 
-import Layout from '@layouts/About.astro'
+import About from '@layouts/About.astro';
+
 import Box from '@components/Box.astro'
 import Imgc from '@components/Imgc.astro'
 
-Welcome.
+<About {...frontmatter}>
+Welcome. Let's see if this works. It does appear to, weirdly enough.[^fn1]
 
-Eons ago, when [the web was a new thing](http://info.cern.ch/hypertext/WWW/TheProject.html)---and people still capitalized *Web* and used two words for *Web site*, consarn it---[ISPs](https://en.wikipedia.org/wiki/Internet_service_provider) tended to provide free file space for people to have [little personal websites](https://consumerist.com/2015/03/20/where-did-everyone-from-the-90s-go-when-we-all-got-facebook-and-quit-web-1-0/). Back in those days, one did so with whatever [FTP](https://en.wikipedia.org/wiki/File_Transfer_Protocol) client one could find, what we now know as static [HTML](https://www.w3schools.com/html/html_intro.asp) files (but not [CSS](https://www.w3schools.com/Css/), not yet anyway), and lots and lots of [dialup modem noise](https://en.wikipedia.org/wiki/File:Dial_up_modem_noises.ogg).
+[^fn1]: And this should be a footnote.
 
-And, yes, I had one, back on what then was called [GTE.net](https://en.wikipedia.org/wiki/GTE). In fact, I was a "Charter Subscriber" to that ISP.
+Eons ago[^fn2], when [the web was a new thing](http://info.cern.ch/hypertext/WWW/TheProject.html)---and people[^fn3] still capitalized *Web* and used two words for *Web site*, consarn it---[ISPs](https://en.wikipedia.org/wiki/Internet_service_provider) tended to provide free file space for people[^fn4] to have [little personal websites](https://consumerist.com/2015/03/20/where-did-everyone-from-the-90s-go-when-we-all-got-facebook-and-quit-web-1-0/). Back in those days, one did so with whatever [FTP](https://en.wikipedia.org/wiki/File_Transfer_Protocol) client[^fn5] one could[^fn6] find, what we now[^fn7] know as static [HTML](https://www.w3schools.com/html/html_intro.asp) files (but not [CSS](https://www.w3schools.com/Css/), not yet[^fn8] anyway), and lots[^fn9] and lots of [dialup modem noise](https://en.wikipedia.org/wiki/File:Dial_up_modem_noises.ogg).
+
+And[^fn10], yes, I had[^fn11] one, back[^fn12] on what[^fn13] then was called [GTE.net](https://en.wikipedia.org/wiki/GTE). In[^fn14] fact, I was[^fn15] a "Charter Subscriber" to that[^fn16] ISP.[^fn17]
 
 <Imgc
   url="gte-net_HTML_1997-04-17_crop_1280x715.jpg"
@@ -34,7 +38,7 @@ And, yes, I had one, back on what then was called [GTE.net](https://en.wikipedia
   tmpl=""
 />
 
-Yet, as that free-file-space thing gradually went away, so, too, did many personal sites---mine among them.
+Yet, as that[^fn18] free-file-space thing[^fn19] gradually went[^fn20] away, so, too, did many personal sites---mine[^fn21] among them.
 
 Over the years, database-driven content management systems ([CMSs](https://en.wikipedia.org/wiki/Web_content_management_system)) like [WordPress](https://wordpress.org) appeared. They provide click-and-drag ease in building a personal site, but they tend to be [security nightmares unless properly maintained](https://ithemes.com/2017/01/16/wordpress-security-issues/), which many aren't. They also introduce a great deal of technical overhead.
 
@@ -58,6 +62,47 @@ Thank you for stopping by. I hope you find this site a source of various little 
 
 Again, welcome.
 
+[^fn2]: Footnote 2. In this one, we'll bloviate a little to see exactly what would happen to the spacing if this were an issue, as it apparently might be due to how Remark and/or GFM is handling these footnotes.
+
+[^fn3]: Footnote 3.
+
+[^fn4]: Footnote 4.
+
+[^fn5]: Footnote 5.
+
+[^fn6]: Footnote 6.
+
+[^fn7]: Footnote 7.
+
+[^fn8]: Footnote 8.
+
+[^fn9]: Footnote 9.
+
+[^fn10]: Footnote 10.
+
+[^fn11]: Footnote 11.
+
+[^fn12]: Footnote 12.
+
+[^fn13]: Footnote 13.
+
+[^fn14]: Footnote 14.
+
+[^fn15]: Footnote 15.
+
+[^fn16]: Footnote 16.
+
+[^fn17]: Footnote 17.
+
+[^fn18]: Footnote 18.
+
+[^fn19]: Footnote 19.
+
+[^fn20]: Footnote 20.
+
+[^fn21]: Footnote 21.
+
 <Box cssClass="yellowBox">
 **Note**: For those familiar with the site, you'll see that this text now encompasses both the long-time "About me" text and the site's original home page "welcome" text.
 </Box>
+</About>

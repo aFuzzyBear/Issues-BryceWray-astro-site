@@ -141,9 +141,9 @@ const { title, subtitle, description, date, lastmod } = Astro.props;
       <p>&nbsp;</p>
     )}
     <p class="billboard-p-text">
-      <strong>{date}</strong><br />
+      <strong>{format(new Date(date), "MMMM d, yyyy")}</strong><br />
       {lastmod && (
-        <span class="pokey">Last modified {lastmod}</span>
+        <span class="pokey">Last modified {format(new Date(lastmod), "MMMM d, yyyy")}</span>
       ) || (
         <span class="pokey">&nbsp;</span>
       )}
