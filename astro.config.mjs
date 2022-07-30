@@ -21,6 +21,11 @@ export default defineConfig({
 		plugins: [],
 		// ssr: {}
 	},
+	markdown: {
+		shikiConfig: {
+			theme: 'github-dark'
+		}
+	},
   integrations: [
 		sitemap(),
 		mdx({
@@ -40,9 +45,6 @@ export default defineConfig({
 					}
 				]
 			],
-			shikiConfig: {
-				theme: 'github-dark'
-			}
 		})
-	]
+	],
 });
