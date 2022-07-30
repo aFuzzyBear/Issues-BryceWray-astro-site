@@ -7,9 +7,6 @@
 }
 
 .footnotes {
-	width: 50%;
-	margin-right: auto;
-	margin-left: auto;
   margin-top: 1.5em; // needed in case of box right before footnotes
   // padding-top: 0.5em; // needed in Hugo, but not in Astro
   border-top: 1px solid var.$black;
