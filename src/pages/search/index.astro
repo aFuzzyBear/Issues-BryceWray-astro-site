@@ -1,9 +1,16 @@
 ---
-// if needed
+import Head from '@components/Head.astro'
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { format } from "date-fns";
+
+let title = 'Search the site';
+let description = 'Search.';
+let permalink = 'https://www.brycewray.com/';
 ---
 
 <style lang="scss">
-  @use '../styles/variables' as var; // SCSS partial
+  @use '../../styles/variables' as var; // SCSS partial
 
 	// === for search form
 
@@ -221,17 +228,33 @@
 
 </style>
 
-<div class="searchDivPF" data-pagefind-ignore>
-	<p class="ctr pokey" data-pagefind-ignore><em>Powered by <a href="https://github.com/cloudcannon/pagefind">Pagefind</a> by&nbsp;<a href="https://cloudcannon.com">Cloudcannon</a>.<br />
-		Requires JavaScript.</em></p>
-	<script nonce="DhcnhD3khTMePgXw" src="/_pagefind/pagefind-ui.js" type="text/javascript" is:inline></script>
-	<div id="search"></div>
-	<script nonce="DhcnhD3khTMePgXw" is:inline>
-		window.addEventListener('DOMContentLoaded', (event) => {
-			new PagefindUI({
-				element: "#search",
-				showImages: false
-			});
-		});
-	</script>
-</div>
+
+<html lang="en">
+	<head>
+		<Head {title} {description} {permalink} />
+	</head>
+
+	<body>
+		<Header />
+		<div class="wrapper">
+			<main class="content" data-pagefind-ignore>
+				<h1 class="ctr">{title}</h1>
+				<div class="searchDivPF" data-pagefind-ignore>
+					<p class="ctr pokey" data-pagefind-ignore><em>Powered by <a href="https://github.com/cloudcannon/pagefind">Pagefind</a> by&nbsp;<a href="https://cloudcannon.com">Cloudcannon</a>.<br />
+						Requires JavaScript.</em></p>
+					<script nonce="DhcnhD3khTMePgXw" src="/_pagefind/pagefind-ui.js" type="text/javascript" is:inline></script>
+					<div id="search"></div>
+					<script nonce="DhcnhD3khTMePgXw" is:inline>
+						window.addEventListener('DOMContentLoaded', (event) => {
+							new PagefindUI({
+								element: "#search",
+								showImages: false
+							});
+						});
+					</script>
+				</div>
+			</main>
+		</div>
+    <Footer />
+	</body>
+</html>

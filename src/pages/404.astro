@@ -5,6 +5,8 @@ import Footer from '@components/Footer.astro';
 
 let title = 'Page not found | BryceWray.com';
 let description = 'Page not found.';
+
+const { content } = Astro.props
 ---
 
 <style lang="scss">
@@ -35,14 +37,12 @@ let description = 'Page not found.';
 </style>
 
 <html lang="en">
-	<head>
-		<Head {title} {description} />
-	</head>
+	<Head {...content} />
 
 	<body>
 		<Header />
 		<div class="wrapper">
-			<main class="content">
+			<main class="content" data-pagefind-ignore>
         <div class="FourOhFour">
           <h1>Page not found</h1>
           <p>Sorry, that page isn&rsquo;t on this&nbsp;site.</p>
@@ -52,4 +52,5 @@ let description = 'Page not found.';
 		</div>
     <Footer />
 	</body>
+
 </html>

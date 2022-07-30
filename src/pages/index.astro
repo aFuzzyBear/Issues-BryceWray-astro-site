@@ -23,6 +23,8 @@ allPosts = allPosts
 );
 let postsNumber = allPosts.length;
 let latestThree = allPosts.slice(0, 3);
+
+const { content } = Astro.props
 ---
 
 <style lang="scss">
@@ -133,14 +135,12 @@ let latestThree = allPosts.slice(0, 3);
 </style>
 
 <html lang="en">
-	<head>
-		<Head {title} {description} {permalink} />
-	</head>
+	<Head {...content} />
 
 	<body>
 		<Header />
 		<div class="wrapper">
-			<main class="content">
+			<main class="content" data-pagefind-ignore>
         <div class="container-home">
           <div class="homeOpen">
             <h1>The greeting goes here.</h1>

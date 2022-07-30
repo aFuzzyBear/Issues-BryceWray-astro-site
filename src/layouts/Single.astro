@@ -9,9 +9,7 @@ const { content } = Astro.props;
 ---
 
 <html lang={content.lang || 'en'}>
-  <head>
-    <Head {...content} />
-  </head>
+  <Head {...content} />
 
   <body>
     <Header />
@@ -24,4 +22,5 @@ const { content } = Astro.props;
     </main>
     <Footer />
   </body>
+
 </html>
