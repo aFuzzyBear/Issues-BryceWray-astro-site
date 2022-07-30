@@ -1,19 +1,21 @@
 @use 'variables' as var;
 
 html, body {
-  font-family: var.$sans-serif;
-  // font-weight: 425; // when using variable fonts
-  color: var.$default-color;
+	font-family: var.$serif;
+	background-color: var.$gray-GitHub-blue;
+	color: var.$default-color;
+	@media (prefers-color-scheme: dark) {
+		background: var.$background-dark-mode;
+		color: var.$default-color-dark-mode;
+	}
   width: 100%;
   margin: 0 auto;
   padding: 0;
-  -moz-osx-font-smoothing: auto; // only for Firefox on macOS (and not for system fonts); other browsers use defaults (if any)
-  // font-feature-settings: "liga" 1; // if using any ligature-savvy fonts, ligatures won't work without this
-  @media (prefers-color-scheme: dark) {
-    background: var.$background-dark-mode;
-    color: var.$default-color-dark-mode;
-    font-weight: 375;
-  }
+	-moz-osx-font-smoothing: auto; // only for Firefox on macOS (and not for system fonts); other browsers use defaults (if any)
+	-webkit-font-feature-settings: "liga" 1;
+	font-feature-settings: "liga" 1; // if using any ligature-savvy fonts, ligatures won't work without this
+	text-rendering: optimizeLegibility;
+	font-kerning: normal;
 }
 
 html {
@@ -25,24 +27,11 @@ p, li {
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-  font-family: var.$sans-serif;
+  // font-family: var.$sans-serif;
+	font-weight: normal;
   letter-spacing: -0.025rem;
   @media (prefers-color-scheme: dark) {
     color: var.$default-color-dark-mode;
-  }
-}
-
-h1, .h1 {
-  font-weight: 800;
-  @media (prefers-color-scheme: dark) {
-    font-weight: 750;
-  }
-}
-
-h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-  font-weight: 625;
-  @media (prefers-color-scheme: dark) {
-    font-weight: 575;
   }
 }
 
@@ -162,7 +151,7 @@ a {
 a:focus, a:hover, a:active {
   color: var.$darkblue;
   @media (prefers-color-scheme: dark) {
-    color: var.$grey-2;
+    color: var.$gray-2;
     border-bottom: 1px solid var.$blueLight;
   }
 }
@@ -172,14 +161,14 @@ sup a, .footnote-return, a.icon {
 }
 
 blockquote {
-	border-left: 4px solid var.$grey-2;
-  color: var.$grey-1;
+	border-left: 4px solid var.$gray-2;
+  color: var.$gray-1;
   margin-right: 0;
   margin-left: 0;
   padding-left: 1.5em;
   @media (prefers-color-scheme: dark) {
-    border-left: solid var.$grey-1;
-    color: var.$grey-2-dark-mode;
+    border-left: solid var.$gray-1;
+    color: var.$gray-2-dark-mode;
   }
   p:last-child {
     margin-bottom: 0;
@@ -234,32 +223,6 @@ audio, canvas, embed, iframe, img, object, svg, video {
 .container {
   // width: 90%;
   margin: 0 auto;
-  &-home {
-    font-family: var.$sans-serif;
-    text-align: center;
-    padding: 2rem 0;
-    margin: 0 auto;
-    width: 90%;
-    @media screen and (min-width: var.$bkpt_lg) {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      padding: 0;
-      margin: 0;
-      .post-line {
-        display: none;
-      }
-    }
-    h1 {
-      font-size: 1.25rem;
-      @media screen and (min-width: var.$bkpt_lg) {
-        font-size: 1.5rem;
-      }
-      @media screen and (min-width: var.$bkpt_2xl) {
-        font-size: 1.75rem;;
-      }
-    }
-  }
   &-narrower {
     margin: 1rem auto 0 auto;
     width: 80%;

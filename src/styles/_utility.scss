@@ -77,9 +77,9 @@
     color: var.$darkblue;
   }
   &-muted {
-    color: var.$grey-1;
+    color: var.$gray-1;
     @media (prefers-color-scheme: dark) {
-      color: var.$grey-2-dark-mode;
+      color: var.$gray-2-dark-mode;
     }
   }
   &-body {
@@ -170,7 +170,7 @@
 /* === end, borrowed from TWCSS === */
 
 .grayedOut {
-  color: var.$grey-2-dark-mode;
+  color: var.$gray-2-dark-mode;
 }
 
 // start, text/LH classes from TWCSS
@@ -254,6 +254,35 @@
   font-size: 0.1em;
   margin: 0;
   padding: 0;
+}
+
+details.comments > summary {
+	list-style: none;
+	color: var.$white;
+	border-radius: var.$btn_radius;
+	margin: 0 auto;
+	border: 1px solid var.$blue;
+	background-color: var.$blue;
+	padding: 0.5em 0.25em;
+	width: 15em;
+	&:hover {
+		cursor: pointer;
+		background-color: var.$darkblue;
+		@media screen and (prefers-color-scheme: dark) {
+			border: 1px solid var.$blueLightBtn;
+			background-color: var.$blueLightBtn;
+		}
+	}
+	@media screen and (prefers-color-scheme: dark) {
+		border: 1px solid var.$code-color-blueLight-dark-mode;
+		background-color: var.$code-color-blueLight-dark-mode;
+		color: var.$black;
+	}
+}
+
+details.comments > summary::marker,
+details.comments > summary::-webkit-details-marker {
+	display: none;
 }
 
 // === end, utility classes

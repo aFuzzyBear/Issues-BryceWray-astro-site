@@ -17,7 +17,7 @@ table { // for GFM default
     }
   }
   thead tr {
-    background-color: var.$greyArrow;
+    background-color: var.$grayArrow;
     color: white;
     @media(prefers-color-scheme: dark) {
       background-color: var.$code-bkgd-dark-mode;
