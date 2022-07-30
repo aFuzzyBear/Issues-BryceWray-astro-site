@@ -24,10 +24,28 @@ pre[class*="language-"] {
 }
 
 /* Code blocks */
-.astro-code {
-  padding: 1em;
+.astro-code, pre.shiki {
+  // position: relative;
+	// padding: 2em 1em 1em;
+	padding: 1em;
   margin: .5em 0;
   overflow: auto;
+	border-radius: 12px;
+}
+
+.language-id {
+	display: none;
+	// --- hiding until can
+	// control it without
+	// crashing Shiki ---
+	// position: absolute;
+	// left: 1em;
+	// top: 0.5em;
+	// color: lightgoldenrodyellow;
+	// // text-transform: uppercase;
+	// font-size: var.$legal;
+	// font-family: var.$sans-serif;
+	// // font-weight: bold;
 }
 
 :not(pre) > code {

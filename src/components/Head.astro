@@ -2,13 +2,8 @@
 import '@styles/index.scss';
 import * as info from '../info.js';
 
-export interface Props {
-	title: string;
-	description: string;
-	// permalink: string;
-  featured_image?: string;
-}
-const { title, description, featured_image } = Astro.props as Props;
+let title = 'BryceWray.com';
+let description = 'brycewray.com — Observations, opinions, geekery.';
 
 const currentUrl = Astro.request.url;
 // const canonicalUrl = Astro.canonicalURL;
@@ -17,23 +12,16 @@ let socialImg = "https://res.cloudinary.com/brycewray-com/image/upload/c_fill,w_
 
 let fallbackImg = "typewriter-monochrome_2242164_6260x4374.jpg";
 
-let imageToUse = '';
-
-if (featured_image == null) {
-  imageToUse = socialImg + fallbackImg;
-} else {
-  imageToUse = socialImg + featured_image;
-}
-
-// console.log("featured_image = " + featured_image);
-// console.log("imageToUse = " + imageToUse);
+let imageToUse = socialImg + fallbackImg;
 
 let envMode = import.meta.env.MODE; // "production" or "development"
 ---
 
 <head>
 <!-- CSS/SCSS -->
-<link rel="preload" href="/assets/fonts/Inter-3-19_subset_2021-06-18.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+<!--
+	<link rel="preload" href="/assets/fonts/Inter-3-19_subset_2021-06-18.woff2" crossorigin="anonymous" as="font" type="font/woff2" />
+-->
 <!-- other styling handled by Vite -->
 
 <!-- Global Metadata -->
