@@ -1,10 +1,9 @@
 ---
-import { format } from "date-fns";
 import Head from '@components/Head.astro';
 import Header from '@components/Header.astro';
 import Post from '@components/PostComp.astro';
 import Footer from '@components/Footer.astro';
-// import Billboard from '@components/Billboard.astro';
+import Billboard from '@components/Billboard.astro';
 import Comments from '@components/Comments.astro';
 
 let allPosts = await Astro.glob('../pages/posts/**/*.mdx');
@@ -15,8 +14,8 @@ allPosts = allPosts
 );
 let postsNumber = allPosts.length;
 
-const { content, page } = Astro.props;
-const { title, subtitle, description, date, lastmod, permalink } = content;
+const { content } = Astro.props;
+const { title, subtitle, description, date, lastmod, permalink, featured_image, featured_image_alt, featured_image_width, featured_image_height, featured_image_caption } = content;
 const thisUrl = new URL(Astro.request.url);
 let nextUrl, nextTitle, prevUrl, prevTitle, addSlash = "";
 let envMode = import.meta.env.MODE;
@@ -51,126 +50,7 @@ for(let x = 0; x < postsNumber; x++) {
 
 <style lang="scss">
   @use '../styles/variables' as var; // SCSS partial
-  .billboard {
-    &-div {
-      font-family: var.$sans-serif;
-      text-align: center;
-      position: relative;
-      height: auto;
-      padding-right: 2em;
-      padding-left: 2em;
-      padding-bottom: 1em;
-      @media screen and (min-width: var.$bkpt_lg) {
-        padding-right: 4rem;
-        padding-left: 4rem;
-      }
-      @media screen and (min-width: var.$bkpt_2xl) {
-        padding-right: 8rem;
-        padding-left: 8rem;
-      }
-    }
-    &-title-block {
-      display: block;
-      width: 100%;
-      padding-top: 1em;
-    }
-    &-title-block-fit {
-      display: block;
-      width: 100%;
-    }
-    &-title-text, &-subtitle-text, &-description-text {
-      margin: 0 auto;
-      text-align: center;
-      padding-right: 2%;
-      padding-left: 2%;
-      @media screen and (min-width: var.$bkpt_lg) {
-        text-align: left;
-        padding-right: 3%;
-        padding-left: 3%;
-      }
-      @media screen and (min-width: var.$bkpt_2xl) {
-        padding-right: 4%;
-        padding-left: 4%;
-      }
-    }
-    &-title-text {
-      font-size: 2.25em;
-      font-weight: 800;
-      @media screen and (prefers-color-scheme: dark) {
-        font-weight: 750;
-      }
-      padding-top: 1em; // definitely em, not rem
-      line-height: 1.1;
-      letter-spacing: -0.0375em;
-      @media screen and (min-width: var.$bkpt_md) {
-        font-size: 3em;
-      }
-      @media screen and (min-width: var.$bkpt_lg) {
-        font-size: 3.5rem;
-      }
-      @media screen and (min-width: var.$bkpt_xl) {
-        font-size: 4em;
-      }
-    }
-    &-subtitle-text {
-      font-size: 1.75rem;
-      padding-top: 0.75em; // definitely em, not rem
-      padding-bottom: 0.25em; // definitely em, not rem
-      line-height: 1.25;
-      letter-spacing: -0.04em;
-      @media screen and (min-width: var.$bkpt_md) {
-        font-size: 2.5rem;
-        padding-top: 0.5em;
-      }
-      @media screen and (min-width: var.$bkpt_lg) {
-        font-size: 2.875rem;
-      }
-      @media screen and (min-width: var.$bkpt_2xl) {
-        font-size: 3.25rem;
-      }
-    }
-    &-description-text {
-      font-size: 1rem;
-      // font-family: var.$serif;
-      padding-top: 1em; // definitely em, not rem
-      letter-spacing: -0.01em;
-      line-height: 1.4;
-      @media screen and (min-width: var.$bkpt_md) {
-        font-size: 1.25rem;
-      }
-      @media screen and (min-width: var.$bkpt_lg) {
-        font-size: 1.5rem;
-        // handle italics/obliques in the partial with `em` (covers different fonts' handling thereof)
-        letter-spacing: -0.025em;
-      }
-      @media screen and (min-width: var.$bkpt_2xl) {
-        font-size: 1.75rem;
-      }
-      @media screen and (min-width: var.$bkpt_3xl) {
-        font-size: 2rem;
-      }
-    }
-    &-p-text {
-      font-size: 1rem;
-      line-height: 1.25;
-      margin-top: 1.5em;
-      text-align: center;
-      @media screen and (min-width: var.$bkpt_md) {
-        font-size: 1.25rem;
-        line-height: 1.175;
-      }
-      @media screen and (min-width: var.$bkpt_lg) {
-        font-size: 1.375rem;
-        line-height: 1.1;
-        text-align: right;
-      }
-      @media screen and (min-width: var.$bkpt_2xl) {
-        font-size: 1.5rem;
-      }
-    }
-  }
-
-	.bg-dark {
+  .bg-dark {
     // font-family: var.$sans-serif;
     margin-top: 2.5rem;
     background-color: var.$black;
@@ -243,30 +123,14 @@ for(let x = 0; x < postsNumber; x++) {
 
 <html lang={content.lang || 'en'}>
 	<head>
-		<Head {title} {description} {permalink} />
+		<Head {title} {description} {permalink} {featured_image} />
 	</head>
 
 	<body>
 		<Header />
     <main>
-			<div class="billboard-div">
-				<div class="billboard-title-block">
-					<h1 class="billboard-title-text">{title}</h1>
-					{description && (
-						<p class="billboard-description-text">{description}</p>
-					) || (
-						<p>&nbsp;</p>
-					)}
-					<p class="billboard-p-text">
-						<strong>{format(new Date(date), "MMMM d, yyyy")}</strong><br />
-						{lastmod && (
-							<span class="pokey">Last modified {format(new Date(lastmod), "MMMM d, yyyy")}</span>
-						) || (
-							<span class="pokey">&nbsp;</span>
-						)}
-					</p>
-				</div>
-			</div>
+      <Billboard {...content}
+      />
 			<Post >
 				<slot />
         <div class="contactBtn">
