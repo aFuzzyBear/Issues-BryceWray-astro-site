@@ -1,3 +1,3 @@
-# Repo for brycewray.com
+# Testing Astro — now with MDX
 
-This is the repository from which the [Astro](https://astro.build)-generated version of [brycewray.com](https://brycewray.com) was built.
+[More details to come.]
