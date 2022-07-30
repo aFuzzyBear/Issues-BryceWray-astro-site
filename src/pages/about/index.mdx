@@ -1,5 +1,5 @@
 ---
-#layout: '@layouts/About.astro'
+layout: '@layouts/About.astro'
 title: About me
 description: Not a bio (you’d fall asleep), but just some explanatory observations.
 author: Bryce Wray
@@ -14,14 +14,9 @@ featured_image_caption: |
   <span class="caption">Image: <a href="https://pixabay.com/users/Dalomo-5179/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=49958">Dalomo</a>; <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=49958">Pixabay</a></span>
 ---
 
-export const title = 'About me'
-
-import About from '@layouts/About.astro';
-
 import Box from '@components/Box.astro'
 import Imgc from '@components/Imgc.astro'
 
-<About {...frontmatter}>
 Welcome. Let's see if this works. It does appear to, weirdly enough.[^fn1]
 
 [^fn1]: And this should be a footnote.
@@ -105,4 +100,3 @@ Again, welcome.
 <Box cssClass="yellowBox">
 **Note**: For those familiar with the site, you'll see that this text now encompasses both the long-time "About me" text and the site's original home page "welcome" text.
 </Box>
-</About>
