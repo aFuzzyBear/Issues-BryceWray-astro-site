@@ -22,9 +22,10 @@ export default defineConfig({
 		// ssr: {}
 	},
 	markdown: {
+		// syntaxHighlight: 'prism', // while Shiki is FUBARed
 		shikiConfig: {
 			theme: 'github-dark'
-		}
+		},
 	},
   integrations: [
 		sitemap(),
