@@ -4,7 +4,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+		"pf": "npm run build && npx -y pagefind --source dist --root-selector body --serve"
   },
   "keywords": [],
   "author": "",
